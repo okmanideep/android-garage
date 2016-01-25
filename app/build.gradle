@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 
+def twitterKey = System.getenv('TWITTER_BEARER_TOKEN')
 android {
     compileSdkVersion 23
     buildToolsVersion "23.0.2"
@@ -11,6 +12,9 @@ android {
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
+
+        buildConfigField 'String', 'TWITTER_KEY', "\"${twitterKey}\""
+
     }
     buildTypes {
         release {
@@ -21,6 +25,14 @@ android {
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
     }
+    packagingOptions {
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/NOTICE'
+    }
+}
+
+kapt {
+    generateStubs = true
 }
 
 ext {
@@ -33,6 +45,21 @@ dependencies {
     compile "com.android.support:appcompat-v7:$supportLibVersion"
     compile "com.android.support:design:$supportLibVersion"
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+
+    //Retrofit and Gson
+    compile 'com.squareup.okhttp3:okhttp:3.0.0-RC1'
+    compile 'com.squareup.okhttp3:logging-interceptor:3.0.0-RC1'
+    compile 'com.squareup.retrofit2:retrofit:2.0.0-beta3'
+    compile 'com.squareup.retrofit2:converter-gson:2.0.0-beta3'
+    compile'com.google.code.gson:gson:2.4'
+
+    //Dagger
+    compile 'com.google.dagger:dagger:2.0.2'
+    kapt 'com.google.dagger:dagger-compiler:2.0.2'
+    provided 'org.glassfish:javax.annotation:10.0-b28'
+
+    //Timber for logging
+    compile 'com.jakewharton.timber:timber:4.1.0'
 }
 buildscript {
     ext.kotlin_version = '1.0.0-beta-4589'
