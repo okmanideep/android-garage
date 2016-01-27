@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.widget.Toast
 import com.manidesto.androidgarage.R
-import com.manidesto.androidgarage.data.SearchResults
+import com.manidesto.androidgarage.data.SearchResult
 import com.manidesto.androidgarage.data.TwitterApi
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -14,7 +14,7 @@ import retrofit2.Response
 import retrofit2.Retrofit
 
 
-class MainActivity : AppCompatActivity(), Callback<SearchResults> {
+class MainActivity : AppCompatActivity(), Callback<SearchResult> {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -39,8 +39,8 @@ class MainActivity : AppCompatActivity(), Callback<SearchResults> {
         Toast.makeText(this, t?.message, Toast.LENGTH_LONG).show()
     }
 
-    override fun onResponse(response: Response<SearchResults>?) {
-        val tweets = response?.body()
-        Toast.makeText(this, (tweets?.statuses?.size ?: "No tweets").toString(), Toast.LENGTH_LONG).show()
+    override fun onResponse(response: Response<SearchResult>?) {
+        val tweets = response?.body()?.statuses;
+        Toast.makeText(this, (tweets?.size ?: "No tweets").toString(), Toast.LENGTH_LONG).show()
     }
 }

@@ -12,5 +12,5 @@ import retrofit2.http.Query
 interface TwitterApi {
     @Headers("Authorization: Bearer " + BuildConfig.TWITTER_KEY)
     @GET("search/tweets.json")
-    fun searchTweets(@Query("q")query : String) : Call<SearchResults>
+    fun searchTweets(@Query("q")query : String) : Call<SearchResult>
 }
