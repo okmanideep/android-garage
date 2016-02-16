@@ -7,7 +7,7 @@ import com.manidesto.androidgarage.log.ReleaseTree
 import timber.log.Timber
 
 class GarageApp : Application() {
-    public var garageComponent : GarageComponent? = null
+    var garageComponent : GarageComponent? = null
 
     override fun onCreate() {
         super.onCreate();

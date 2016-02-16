@@ -1,4 +1,4 @@
-package com.manidesto.androidgarage.activity
+package com.manidesto.androidgarage.ui.activity
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
@@ -20,7 +20,7 @@ class MainActivity : AppCompatActivity(), Callback<SearchResult> {
         setContentView(R.layout.activity_main)
 
         val logger = HttpLoggingInterceptor()
-        logger.setLevel(HttpLoggingInterceptor.Level.BODY)
+        logger.level = HttpLoggingInterceptor.Level.BODY
 
         val client = OkHttpClient.Builder().addInterceptor(logger).build()
 
