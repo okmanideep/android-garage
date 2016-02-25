@@ -3,44 +3,70 @@ package com.manidesto.androidgarage.ui.activity
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.widget.Toast
+import com.manidesto.androidgarage.GarageApp
+import com.manidesto.androidgarage.ObjectMap
 import com.manidesto.androidgarage.R
-import com.manidesto.androidgarage.data.SearchResult
-import com.manidesto.androidgarage.data.TwitterApi
-import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
-import retrofit2.Callback
-import retrofit2.GsonConverterFactory
-import retrofit2.Response
-import retrofit2.Retrofit
+import com.manidesto.androidgarage.data.Tweet
+import com.manidesto.androidgarage.ui.DaggerMainScreenComponent
+import com.manidesto.androidgarage.ui.MainScreenComponent
+import com.manidesto.androidgarage.ui.presenter.IMainView
+import com.manidesto.androidgarage.ui.presenter.MainPresenter
+import javax.inject.Inject
 
 
-class MainActivity : AppCompatActivity(), Callback<SearchResult> {
+class MainActivity : AppCompatActivity(), IMainView{
+    val mainScreenKey = MainScreenComponent::class.java.name
+    @Inject lateinit var presenter : MainPresenter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val logger = HttpLoggingInterceptor()
-        logger.level = HttpLoggingInterceptor.Level.BODY
+        val mainScreenComponent = if(ObjectMap.has(mainScreenKey)) {
+            ObjectMap.get(mainScreenKey) as MainScreenComponent
+        } else {
+            buildMainScreenComponent()
+        }
+        ObjectMap.add(mainScreenKey, mainScreenComponent)
 
-        val client = OkHttpClient.Builder().addInterceptor(logger).build()
+        mainScreenComponent.inject(this)
+    }
 
-        val retrofit = Retrofit.Builder()
-                .baseUrl("https://api.twitter.com/1.1/")
-                .client(client)
-                .addConverterFactory(GsonConverterFactory.create())
+    override fun onAttachedToWindow() {
+        super.onAttachedToWindow()
+        presenter.attachView(this)
+    }
+
+    override fun onDetachedFromWindow() {
+        super.onDetachedFromWindow()
+        presenter.detachView()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        if(isFinishing) ObjectMap.remove(mainScreenKey)
+    }
+
+    //------------IMainView-------------------------
+    override fun showLoading() {
+        Toast.makeText(this, "Loading tweets", Toast.LENGTH_LONG).show()
+    }
+
+    override fun showError(error: String) {
+        Toast.makeText(this, error, Toast.LENGTH_LONG).show()
+    }
+
+    override fun showTweets(tweets: List<Tweet>) {
+        Toast.makeText(this, "Loaded ${tweets.size} tweets", Toast.LENGTH_LONG).show()
+    }
+    //-----------end IMainView----------------------
+
+    fun buildMainScreenComponent() : MainScreenComponent {
+        val app = application as GarageApp
+
+        return DaggerMainScreenComponent.builder()
+                .garageComponent(app.garageComponent)
                 .build()
-        val twitterApi = retrofit.create(TwitterApi::class.java)
-
-        val call = twitterApi.searchTweets("#BlackLivesMatter")
-        call.enqueue(this)
     }
 
-    override fun onFailure(t: Throwable?) {
-        Toast.makeText(this, t?.message, Toast.LENGTH_LONG).show()
-    }
-
-    override fun onResponse(response: Response<SearchResult>?) {
-        val tweets = response?.body()?.statuses;
-        Toast.makeText(this, (tweets?.size ?: "No tweets").toString(), Toast.LENGTH_LONG).show()
-    }
 }

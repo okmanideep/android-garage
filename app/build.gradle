@@ -36,7 +36,7 @@ kapt {
 }
 
 ext {
-    supportLibVersion = '23.1.1'
+    supportLibVersion = '23.2.0'
 }
 
 dependencies {
@@ -60,6 +60,9 @@ dependencies {
 
     //Timber for logging
     compile 'com.jakewharton.timber:timber:4.1.0'
+
+    compile 'com.github.grandstaish.paperparcel:paperparcel:1.0.0-beta1'
+    kapt 'com.github.grandstaish.paperparcel:compiler:1.0.0-beta1'
 }
 buildscript {
     ext.kotlin_version = '1.0.0'
@@ -72,4 +75,5 @@ buildscript {
 }
 repositories {
     mavenCentral()
+    maven { url = 'https://jitpack.io' }
 }

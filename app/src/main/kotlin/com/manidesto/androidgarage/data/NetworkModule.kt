@@ -21,14 +21,14 @@ class NetworkModule(val context : Context) {
     val CACHE_SIZE : Long = 1024 * 1024 * 10; //10 MB
     val BASE_URL = "https://api.twitter.com/1.1/";
     @Provides
-    public fun providesLoggingInterceptor() : Interceptor {
+    fun providesLoggingInterceptor() : Interceptor {
         val logger = HttpLoggingInterceptor()
-        logger.setLevel(HttpLoggingInterceptor.Level.BODY)
+        logger.level = HttpLoggingInterceptor.Level.BODY
         return logger;
     }
 
     @Provides @Singleton
-    public fun provideOkHttpClient(logger : Interceptor): OkHttpClient {
+    fun provideOkHttpClient(logger : Interceptor): OkHttpClient {
         val cache = Cache(context.cacheDir, CACHE_SIZE)
         return OkHttpClient.Builder()
                 .addInterceptor(logger)
@@ -37,12 +37,12 @@ class NetworkModule(val context : Context) {
     }
 
     @Provides
-    public fun provideGsonConverter() : GsonConverterFactory {
+    fun provideGsonConverter() : GsonConverterFactory {
         return GsonConverterFactory.create()
     }
 
     @Provides @Singleton
-    public fun provideTwitterApi(client : OkHttpClient, gsonConverterFactory: GsonConverterFactory) : TwitterApi {
+    fun provideTwitterApi(client : OkHttpClient, gsonConverterFactory: GsonConverterFactory) : TwitterApi {
         Timber.d("Twitter Api provided")
         return Retrofit.Builder()
                 .baseUrl(BASE_URL)
