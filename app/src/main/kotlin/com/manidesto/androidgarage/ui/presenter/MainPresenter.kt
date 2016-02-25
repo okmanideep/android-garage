@@ -1,5 +1,6 @@
 package com.manidesto.androidgarage.ui.presenter
 
+import android.os.Bundle
 import com.manidesto.androidgarage.data.SearchResult
 import com.manidesto.androidgarage.data.Tweet
 import com.manidesto.androidgarage.data.TwitterApi
@@ -21,16 +22,16 @@ class MainPresenter
 @Inject constructor(val twitterApi: TwitterApi)
  : Callback<SearchResult> {
     private val EXPIRY_TIME = 1000*60*2
+    private val BUNDLE_KEY_STATE = "bundle_key_state";
 
     private var view : IMainView? = null
 
     //STATE
-    private var loaded = false
     private var state = State()
 
 
     fun attachView(view : IMainView) {
-        this.view = view;
+        this.view = view
 
         if(!state.loading && tweetsExpired()) loadTweets()
 
@@ -39,6 +40,23 @@ class MainPresenter
 
     fun detachView() {
         this.view = null
+    }
+
+    fun saveState(outState : Bundle) {
+        val stateParcel = StateParcel.wrap(state)
+        outState.putParcelable(BUNDLE_KEY_STATE, stateParcel)
+    }
+
+    fun restoreState(savedInstanceState : Bundle?) {
+        val stateSaved = savedInstanceState?.containsKey(BUNDLE_KEY_STATE) ?: false;
+        if(savedInstanceState != null && stateSaved) {
+            val stateWrapper = savedInstanceState
+                    .getParcelable<StateParcel>(BUNDLE_KEY_STATE)
+            state = stateWrapper.contents
+            state.loading = false
+
+            updateView()
+        }
     }
 
     fun loadTweets() {

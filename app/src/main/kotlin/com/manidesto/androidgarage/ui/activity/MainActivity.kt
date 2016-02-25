@@ -42,6 +42,16 @@ class MainActivity : AppCompatActivity(), IMainView{
         presenter.detachView()
     }
 
+    override fun onSaveInstanceState(outState: Bundle?) {
+        super.onSaveInstanceState(outState)
+        if(outState != null && isFinishing) presenter.saveState(outState)
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle?) {
+        super.onRestoreInstanceState(savedInstanceState)
+        presenter.restoreState(savedInstanceState)
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         if(isFinishing) ObjectMap.remove(mainScreenKey)
