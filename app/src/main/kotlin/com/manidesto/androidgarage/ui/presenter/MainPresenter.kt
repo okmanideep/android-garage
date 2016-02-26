@@ -5,6 +5,7 @@ import com.manidesto.androidgarage.data.SearchResult
 import com.manidesto.androidgarage.data.Tweet
 import com.manidesto.androidgarage.data.TwitterApi
 import com.manidesto.androidgarage.ui.PerActivity
+import dagger.Lazy
 import nz.bradcampbell.paperparcel.PaperParcel
 import retrofit2.Callback
 import retrofit2.Response
@@ -19,7 +20,7 @@ interface IMainView {
 
 @PerActivity
 class MainPresenter
-@Inject constructor(val twitterApi: TwitterApi)
+@Inject constructor(val lazyTwitterApi: Lazy<TwitterApi>)
  : Callback<SearchResult> {
     private val EXPIRY_TIME = 1000*60*2
     private val BUNDLE_KEY_STATE = "bundle_key_state";
@@ -60,7 +61,7 @@ class MainPresenter
     }
 
     fun loadTweets() {
-        twitterApi.searchTweets("#BlackLivesMatter").enqueue(this)
+        lazyTwitterApi.get().searchTweets("#BlackLivesMatter").enqueue(this)
         state.loading = true
     }
 

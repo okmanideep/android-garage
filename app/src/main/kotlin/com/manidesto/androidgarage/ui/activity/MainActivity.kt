@@ -78,5 +78,4 @@ class MainActivity : AppCompatActivity(), IMainView{
                 .garageComponent(app.garageComponent)
                 .build()
     }
-
 }

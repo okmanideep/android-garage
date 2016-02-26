@@ -23,7 +23,7 @@ class NetworkModule(val context : Context) {
     @Provides
     fun providesLoggingInterceptor() : Interceptor {
         val logger = HttpLoggingInterceptor()
-        logger.level = HttpLoggingInterceptor.Level.BODY
+        logger.level = HttpLoggingInterceptor.Level.BASIC
         return logger;
     }
 
