@@ -63,12 +63,9 @@ class MainPresenter
         }
     }
 
-    fun loadTweets() {
-        Thread(){
-            run {
-                lazyTwitterApi.get().searchTweets("#BlackLivesMatter").enqueue(this)
-            }
-        }.run()
+    fun onRefresh() {
+        state.loading = true
+        loadTweets()
     }
 
     override fun onResponse(response: Response<SearchResult>?) {
@@ -109,6 +106,14 @@ class MainPresenter
     private fun tweetsExpired() : Boolean{
         var now = System.currentTimeMillis()
         return now - state.loadedAt > EXPIRY_TIME
+    }
+
+    private fun loadTweets() {
+        Thread(){
+            run {
+                lazyTwitterApi.get().searchTweets("#BlackLivesMatter").enqueue(this)
+            }
+        }.run()
     }
 
     @PaperParcel

@@ -1,7 +1,10 @@
 package com.manidesto.androidgarage.ui.activity
 
 import android.os.Bundle
+import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.widget.Toast
 import com.manidesto.androidgarage.GarageApp
 import com.manidesto.androidgarage.ObjectMap
@@ -9,6 +12,7 @@ import com.manidesto.androidgarage.R
 import com.manidesto.androidgarage.data.Tweet
 import com.manidesto.androidgarage.ui.DaggerMainScreenComponent
 import com.manidesto.androidgarage.ui.MainScreenComponent
+import com.manidesto.androidgarage.ui.adapter.TweetsAdapter
 import com.manidesto.androidgarage.ui.presenter.IMainView
 import com.manidesto.androidgarage.ui.presenter.MainPresenter
 import javax.inject.Inject
@@ -17,6 +21,10 @@ import javax.inject.Inject
 class MainActivity : AppCompatActivity(), IMainView{
     val mainScreenKey = MainScreenComponent::class.java.name
     @Inject lateinit var presenter : MainPresenter
+
+    lateinit var tweetsView : RecyclerView
+    lateinit var swipeRefreshLayout : SwipeRefreshLayout
+    lateinit var adapter : TweetsAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,6 +38,7 @@ class MainActivity : AppCompatActivity(), IMainView{
         ObjectMap.add(mainScreenKey, mainScreenComponent)
 
         mainScreenComponent.inject(this)
+        initViews()
     }
 
     override fun onAttachedToWindow() {
@@ -59,8 +68,7 @@ class MainActivity : AppCompatActivity(), IMainView{
 
     //------------IMainView-------------------------
     override fun setLoading(loading : Boolean) {
-        if(loading)
-            Toast.makeText(this, "Loading tweets", Toast.LENGTH_LONG).show()
+        swipeRefreshLayout.isRefreshing = loading
     }
 
     override fun setError(error: String?) {
@@ -69,16 +77,26 @@ class MainActivity : AppCompatActivity(), IMainView{
     }
 
     override fun setTweets(tweets: List<Tweet>) {
-        if(tweets.size > 0)
-            Toast.makeText(this, "Loaded ${tweets.size} tweets", Toast.LENGTH_LONG).show()
+        adapter.tweets = tweets
     }
     //-----------end IMainView----------------------
 
-    fun buildMainScreenComponent() : MainScreenComponent {
+    private fun buildMainScreenComponent() : MainScreenComponent {
         val app = application as GarageApp
 
         return DaggerMainScreenComponent.builder()
                 .garageComponent(app.garageComponent)
                 .build()
+    }
+
+    private fun initViews() {
+        tweetsView = findViewById(R.id.rv_tweets) as RecyclerView
+        swipeRefreshLayout = findViewById(R.id.swipe_refresh_layout) as SwipeRefreshLayout
+
+        adapter = TweetsAdapter()
+        tweetsView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+        tweetsView.adapter = adapter
+
+        swipeRefreshLayout.setOnRefreshListener { presenter.onRefresh() }
     }
 }
