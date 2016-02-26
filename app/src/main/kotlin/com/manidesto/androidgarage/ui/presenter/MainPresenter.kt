@@ -13,9 +13,9 @@ import java.util.*
 import javax.inject.Inject
 
 interface IMainView {
-    fun showLoading()
-    fun showError(error : String)
-    fun showTweets(tweets : List<Tweet>)
+    fun setLoading(loading : Boolean)
+    fun setError(error : String?)
+    fun setTweets(tweets : List<Tweet>)
 }
 
 @PerActivity
@@ -34,7 +34,10 @@ class MainPresenter
     fun attachView(view : IMainView) {
         this.view = view
 
-        if(!state.loading && tweetsExpired()) loadTweets()
+        if(!state.loading && tweetsExpired()) {
+            state.loading = true
+            loadTweets()
+        }
 
         updateView()
     }
@@ -61,8 +64,11 @@ class MainPresenter
     }
 
     fun loadTweets() {
-        lazyTwitterApi.get().searchTweets("#BlackLivesMatter").enqueue(this)
-        state.loading = true
+        Thread(){
+            run {
+                lazyTwitterApi.get().searchTweets("#BlackLivesMatter").enqueue(this)
+            }
+        }.run()
     }
 
     override fun onResponse(response: Response<SearchResult>?) {
@@ -94,16 +100,10 @@ class MainPresenter
 
     private fun updateView() {
         val v = view ?: return
-        val isError = state.error != null
-        val e = state.error?:"Error"
 
-        if(state.loading) {
-            v.showLoading()
-        } else if(isError) {
-            v.showError(e)
-        } else {
-            v.showTweets(state.tweets)
-        }
+        v.setLoading(state.loading)
+        v.setError(state.error)
+        v.setTweets(state.tweets)
     }
 
     private fun tweetsExpired() : Boolean{

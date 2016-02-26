@@ -58,16 +58,19 @@ class MainActivity : AppCompatActivity(), IMainView{
     }
 
     //------------IMainView-------------------------
-    override fun showLoading() {
-        Toast.makeText(this, "Loading tweets", Toast.LENGTH_LONG).show()
+    override fun setLoading(loading : Boolean) {
+        if(loading)
+            Toast.makeText(this, "Loading tweets", Toast.LENGTH_LONG).show()
     }
 
-    override fun showError(error: String) {
-        Toast.makeText(this, error, Toast.LENGTH_LONG).show()
+    override fun setError(error: String?) {
+        if(error != null)
+            Toast.makeText(this, error, Toast.LENGTH_LONG).show()
     }
 
-    override fun showTweets(tweets: List<Tweet>) {
-        Toast.makeText(this, "Loaded ${tweets.size} tweets", Toast.LENGTH_LONG).show()
+    override fun setTweets(tweets: List<Tweet>) {
+        if(tweets.size > 0)
+            Toast.makeText(this, "Loaded ${tweets.size} tweets", Toast.LENGTH_LONG).show()
     }
     //-----------end IMainView----------------------
 
