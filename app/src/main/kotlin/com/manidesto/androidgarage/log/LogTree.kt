@@ -21,8 +21,6 @@ class ReleaseTree : Timber.Tree() {
     }
 
     override fun log(priority: Int, tag: String?, message: String?, t: Throwable?) {
-        if(isLoggable(priority)) {
-            Log.println(priority, tag, message)
-        }
+        Log.println(priority, tag, message)
     }
 }

@@ -6,7 +6,7 @@ import com.manidesto.androidgarage.data.Tweet
 import com.manidesto.androidgarage.data.TwitterApi
 import com.manidesto.androidgarage.ui.PerActivity
 import dagger.Lazy
-import nz.bradcampbell.paperparcel.PaperParcel
+import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.util.*
@@ -47,20 +47,9 @@ class MainPresenter
     }
 
     fun saveState(outState : Bundle) {
-        val stateParcel = StateParcel.wrap(state)
-        outState.putParcelable(BUNDLE_KEY_STATE, stateParcel)
     }
 
     fun restoreState(savedInstanceState : Bundle?) {
-        val stateSaved = savedInstanceState?.containsKey(BUNDLE_KEY_STATE) ?: false;
-        if(savedInstanceState != null && stateSaved) {
-            val stateWrapper = savedInstanceState
-                    .getParcelable<StateParcel>(BUNDLE_KEY_STATE)
-            state = stateWrapper.contents
-            state.loading = false
-
-            updateView()
-        }
     }
 
     fun onRefresh() {
@@ -68,12 +57,12 @@ class MainPresenter
         loadTweets()
     }
 
-    override fun onResponse(response: Response<SearchResult>?) {
+    override fun onResponse(call: Call<SearchResult>?, response: Response<SearchResult>?) {
         state.loading = false
         state.loadedAt = System.currentTimeMillis()
 
         if(response != null) {
-            if (response.isSuccess) {
+            if (response.isSuccessful) {
                 state.tweets = response.body().statuses
                 state.error = null
             } else {
@@ -86,7 +75,7 @@ class MainPresenter
         updateView()
     }
 
-    override fun onFailure(t: Throwable?) {
+    override fun onFailure(call: Call<SearchResult>?, t: Throwable?) {
         state.loading = false
         state.loadedAt = System.currentTimeMillis()
 
@@ -116,7 +105,6 @@ class MainPresenter
         }.run()
     }
 
-    @PaperParcel
     data class State (
             var loading : Boolean = false,
             var loadedAt : Long = 0,

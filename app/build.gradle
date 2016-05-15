@@ -4,17 +4,16 @@ apply plugin: 'kotlin-android'
 def twitterKey = System.getenv('TWITTER_BEARER_TOKEN')
 android {
     compileSdkVersion 23
-    buildToolsVersion "23.0.2"
+    buildToolsVersion "24.0.0-rc3"
 
     defaultConfig {
         applicationId "com.manidesto.androidgarage"
-        minSdkVersion 16
+        minSdkVersion 21
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
 
         buildConfigField 'String', 'TWITTER_KEY', "\"${twitterKey}\""
-
     }
     buildTypes {
         release {
@@ -36,7 +35,44 @@ kapt {
 }
 
 ext {
-    supportLibVersion = '23.2.0'
+    //android
+    supportLibVersion = '23.4.0'
+    espressoVersion = '2.2.1'
+    runnerVersion = '0.4.1'
+
+    //google
+    playServiceVersion = '8.4.0'
+    gsonVersion = '2.4'
+    glideVersion = '3.7.0'
+    glideOkHttpVersion = '1.4.0@aar'
+    daggerVersion = '2.0.2'
+
+    //square
+    mortarVersion = '0.20'
+    timberVersion = '4.1.0'
+    butterKnifeVersion = '7.0.1'
+    retrofitVersion = '2.0.2'
+    okioVersion = '1.6.0'
+    okhttpVersion = '3.2.0'
+    leakCanaryVersion = '1.4-beta2'
+
+    //rx
+    rxJavaVersion = '1.0.16'
+    rxAndroidVersion = '1.1.0'
+
+    //other
+    icepickVersion = '3.2.0'
+    rxBindingVersion = '0.4.0'
+    glassFishVersion = '10.0-b28'
+    crashlyticsVersion = '2.5.5@aar'
+    junitVersion = '4.12'
+    mockitoVersion = '1.10.19'
+    robolectricVersion = '3.0'
+    mixpanelVersion = '4.8.0'
+    autoParcelVersion = '0.1'
+    typographyVersion = '0.0.8'
+    svgAndroidVersion = '1.2.1'
+    jodaTimeVersion = '2.9.3'
 }
 
 dependencies {
@@ -48,25 +84,22 @@ dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 
     //Retrofit and Gson
-    compile 'com.squareup.okhttp3:okhttp:3.0.0-RC1'
-    compile 'com.squareup.okhttp3:logging-interceptor:3.0.0-RC1'
-    compile 'com.squareup.retrofit2:retrofit:2.0.0-beta3'
-    compile 'com.squareup.retrofit2:converter-gson:2.0.0-beta3'
-    compile'com.google.code.gson:gson:2.4'
+    compile "com.squareup.okhttp3:okhttp:$okhttpVersion"
+    compile "com.squareup.okhttp3:logging-interceptor:$okhttpVersion"
+    compile "com.squareup.retrofit2:retrofit:$retrofitVersion"
+    compile "com.squareup.retrofit2:converter-gson:$retrofitVersion"
+    compile"com.google.code.gson:gson:$gsonVersion"
 
     //Dagger
-    compile 'com.google.dagger:dagger:2.0.2'
-    kapt 'com.google.dagger:dagger-compiler:2.0.2'
-    provided 'org.glassfish:javax.annotation:10.0-b28'
+    compile "com.google.dagger:dagger:$daggerVersion"
+    kapt "com.google.dagger:dagger-compiler:$daggerVersion"
+    provided "org.glassfish:javax.annotation:$glassFishVersion"
 
     //Timber for logging
-    compile 'com.jakewharton.timber:timber:4.1.0'
-
-    compile 'com.github.grandstaish.paperparcel:paperparcel:1.0.0-beta1'
-    kapt 'com.github.grandstaish.paperparcel:compiler:1.0.0-beta1'
+    compile "com.jakewharton.timber:timber:$timberVersion"
 }
 buildscript {
-    ext.kotlin_version = '1.0.0'
+    ext.kotlin_version = '1.0.2'
     repositories {
         mavenCentral()
     }
