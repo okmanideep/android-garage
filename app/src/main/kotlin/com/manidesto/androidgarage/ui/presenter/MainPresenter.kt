@@ -62,11 +62,17 @@ class MainPresenter
         state.loadedAt = System.currentTimeMillis()
 
         if(response != null) {
-            if (response.isSuccessful) {
-                state.tweets = response.body().statuses
-                state.error = null
-            } else {
-                state.error = "Error Code : ${response.code()}"
+            when {
+                response.isSuccessful() -> {
+                    state.tweets = response.body().statuses
+                    state.error = null
+                }
+                response.code() == 401 -> {
+                    state.error = "App not compiled with valid TWITTER_BEARER_TOKEN"
+                }
+                else -> {
+                    state.error = "Error Code : ${response.code()}"
+                }
             }
         } else {
             state.error = "Null Response"
