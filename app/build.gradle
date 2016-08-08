@@ -1,15 +1,16 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 
-def twitterKey = System.getenv('TWITTER_BEARER_TOKEN')
+def twitterKey = TWITTER_BEARER_TOKEN
+
 android {
-    compileSdkVersion 23
-    buildToolsVersion "24.0.0-rc3"
+    compileSdkVersion 24
+    buildToolsVersion "24.0.0"
 
     defaultConfig {
         applicationId "com.manidesto.androidgarage"
         minSdkVersion 21
-        targetSdkVersion 23
+        targetSdkVersion 24
         versionCode 1
         versionName "1.0"
 
@@ -36,7 +37,7 @@ kapt {
 
 ext {
     //android
-    supportLibVersion = '23.4.0'
+    supportLibVersion = '24.1.1'
     espressoVersion = '2.2.1'
     runnerVersion = '0.4.1'
 
