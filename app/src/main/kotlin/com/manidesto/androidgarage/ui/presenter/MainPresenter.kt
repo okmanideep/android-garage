@@ -63,7 +63,7 @@ class MainPresenter
 
         if(response != null) {
             when {
-                response.isSuccessful() -> {
+                response.isSuccessful -> {
                     state.tweets = response.body().statuses
                     state.error = null
                 }
