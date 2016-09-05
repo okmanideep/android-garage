@@ -5,7 +5,7 @@ def twitterKey = TWITTER_BEARER_TOKEN
 
 android {
     compileSdkVersion 24
-    buildToolsVersion "24.0.0"
+    buildToolsVersion "24.0.1"
 
     defaultConfig {
         applicationId "com.manidesto.androidgarage"
@@ -107,15 +107,7 @@ dependencies {
     compile "com.jakewharton.rxbinding:rxbinding-support-v4:${rxBindingVersion}"
     compile "com.jakewharton.rxbinding:rxbinding-appcompat-v7:${rxBindingVersion}"
 }
-buildscript {
-    ext.kotlin_version = '1.0.2'
-    repositories {
-        mavenCentral()
-    }
-    dependencies {
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-    }
-}
+
 repositories {
     mavenCentral()
     maven { url = 'https://jitpack.io' }
