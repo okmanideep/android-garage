@@ -106,7 +106,7 @@ class MainPresenter
     private fun loadTweets() {
         Thread(){
             run {
-                lazyTwitterApi.get().searchTweets("#BlackLivesMatter").enqueue(this)
+                lazyTwitterApi.get().searchTweets("#AppleEvent").enqueue(this)
             }
         }.run()
     }
