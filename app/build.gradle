@@ -1,7 +1,10 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 
-def twitterKey = TWITTER_BEARER_TOKEN
+def twitterKey = null
+if(project.hasProperty('TWITTER_BEARER_TOKEN')) {
+    twitterKey = TWITTER_BEARER_TOKEN
+}
 
 android {
     compileSdkVersion 24
