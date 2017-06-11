@@ -4,7 +4,7 @@
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.manidesto.androidgarage.ui.scrolling.ScrollingDemo">
+    tools:context=".ui.scrolling.ScrollingDemo">
     <FrameLayout
         android:id="@+id/scene_root"
         android:layout_width="match_parent"
@@ -22,13 +22,13 @@
             android:layout_height="match_parent"
             android:layout_marginTop="56dp"
             />
-        <com.manidesto.androidgarage.ui.commons.BetterRecyclerView
+        <me.okmanideep.androidgarage.ui.commons.BetterRecyclerView
             android:id="@+id/rv_better"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="56dp"
             />
-        <com.manidesto.androidgarage.ui.scrolling.FeedRootRecyclerView
+        <me.okmanideep.androidgarage.ui.scrolling.FeedRootRecyclerView
             android:id="@+id/rv_feed_root"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
