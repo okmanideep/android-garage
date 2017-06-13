@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.widget.Toast
+import butterknife.bindView
 import me.okmanideep.androidgarage.GarageApp
 import me.okmanideep.androidgarage.ObjectMap
 import me.okmanideep.androidgarage.R
@@ -22,9 +23,9 @@ class MainActivity : AppCompatActivity(), IMainView {
     val mainScreenKey = MainScreenComponent::class.java.name
     @Inject lateinit var presenter : MainPresenter
 
-    lateinit var tweetsView : RecyclerView
-    lateinit var swipeRefreshLayout : SwipeRefreshLayout
-    lateinit var adapter : TweetsAdapter
+    val tweetsView : RecyclerView by bindView(R.id.rv_tweets)
+    val swipeRefreshLayout : SwipeRefreshLayout by bindView(R.id.swipe_refresh_layout)
+    val adapter : TweetsAdapter = TweetsAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -90,10 +91,6 @@ class MainActivity : AppCompatActivity(), IMainView {
     }
 
     private fun initViews() {
-        tweetsView = findViewById(R.id.rv_tweets) as RecyclerView
-        swipeRefreshLayout = findViewById(R.id.swipe_refresh_layout) as SwipeRefreshLayout
-
-        adapter = TweetsAdapter()
         tweetsView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         tweetsView.adapter = adapter
 
