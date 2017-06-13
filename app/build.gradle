@@ -51,7 +51,7 @@ ext {
     //square
     mortarVersion = '0.20'
     timberVersion = '4.5.0'
-    butterKnifeVersion = '8.5.1'
+    kotterKnifeVersion = '0.1.0-SNAPSHOT'
     retrofitVersion = '2.0.2'
     okioVersion = '1.6.0'
     okhttpVersion = '3.2.0'
@@ -106,9 +106,12 @@ dependencies {
     compile "com.jakewharton.rxbinding:rxbinding:${rxBindingVersion}"
     compile "com.jakewharton.rxbinding:rxbinding-support-v4:${rxBindingVersion}"
     compile "com.jakewharton.rxbinding:rxbinding-appcompat-v7:${rxBindingVersion}"
+
+    compile "com.jakewharton:kotterknife:$kotterKnifeVersion"
 }
 
 repositories {
     mavenCentral()
     maven { url = 'https://jitpack.io' }
+    maven { url = "https://oss.sonatype.org/content/repositories/snapshots" }
 }
