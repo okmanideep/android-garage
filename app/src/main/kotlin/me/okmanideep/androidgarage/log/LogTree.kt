@@ -13,7 +13,7 @@ class DebugTree : Timber.DebugTree() {
 }
 
 class ReleaseTree : Timber.Tree() {
-    override fun isLoggable(priority: Int): Boolean {
+    override fun isLoggable(tag: String?, priority: Int): Boolean {
         if(priority == Log.DEBUG || priority == Log.VERBOSE || priority == Log.INFO) {
             return false
         }
