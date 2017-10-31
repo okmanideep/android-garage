@@ -9,7 +9,7 @@ if(project.hasProperty('TWITTER_BEARER_TOKEN')) {
 
 android {
     compileSdkVersion 25
-    buildToolsVersion "25.0.3"
+    buildToolsVersion '26.0.2'
 
     defaultConfig {
         applicationId "me.okmanideep.androidgarage"
