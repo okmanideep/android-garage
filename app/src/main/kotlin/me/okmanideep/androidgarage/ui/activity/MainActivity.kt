@@ -6,7 +6,7 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.widget.Toast
-import butterknife.bindView
+import kotterknife.bindView
 import me.okmanideep.androidgarage.GarageApp
 import me.okmanideep.androidgarage.ObjectMap
 import me.okmanideep.androidgarage.R
