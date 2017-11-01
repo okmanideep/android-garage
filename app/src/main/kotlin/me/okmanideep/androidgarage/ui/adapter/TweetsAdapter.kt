@@ -40,6 +40,6 @@ class TweetsAdapter : RecyclerView.Adapter<TweetViewHolder>() {
 
 class TweetViewHolder(itemView: View)
     : RecyclerView.ViewHolder(itemView) {
-    val dp = itemView.findViewById(R.id.iv_dp) as ImageView
-    val tweet = itemView.findViewById(R.id.tv_tweet) as TextView
+    val dp:ImageView = itemView.findViewById(R.id.iv_dp)
+    val tweet:TextView = itemView.findViewById(R.id.tv_tweet)
 }

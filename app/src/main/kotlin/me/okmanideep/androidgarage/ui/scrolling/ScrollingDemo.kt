@@ -10,6 +10,7 @@ import android.support.v7.widget.Toolbar
 import android.view.View
 import android.widget.CheckBox
 import com.jakewharton.rxbinding.widget.RxCompoundButton
+import kotterknife.bindView
 import me.okmanideep.androidgarage.R
 import rx.Observable
 import rx.subscriptions.CompositeSubscription
@@ -20,11 +21,11 @@ class ScrollingDemo : AppCompatActivity() {
     val BETTER = 1
     val FEED_ROOT = 2
 
-    lateinit var rvNormal : RecyclerView
-    lateinit var rvBetter : RecyclerView
-    lateinit var rvFeedRoot : RecyclerView
-    lateinit var cbAngle : CheckBox
-    lateinit var cbIgore : CheckBox
+    val rvNormal : RecyclerView by bindView(R.id.rv_normal)
+    val rvBetter : RecyclerView by bindView(R.id.rv_better)
+    val rvFeedRoot : RecyclerView by bindView(R.id.rv_feed_root)
+    val cbAngle : CheckBox by bindView(R.id.cb_consider_angle)
+    val cbIgore : CheckBox by bindView(R.id.cb_ignore_child_requests)
 
     val adapter = SectionAdapter()
     lateinit var viewSubscriptions : CompositeSubscription
@@ -33,12 +34,6 @@ class ScrollingDemo : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_scrolling_demo)
         setUpDrawer()
-
-        rvNormal = findViewById(R.id.rv_normal) as RecyclerView
-        rvBetter = findViewById(R.id.rv_better) as RecyclerView
-        rvFeedRoot = findViewById(R.id.rv_feed_root) as RecyclerView
-        cbAngle = findViewById(R.id.cb_consider_angle) as CheckBox
-        cbIgore = findViewById(R.id.cb_ignore_child_requests) as CheckBox
 
         rvNormal.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         rvBetter.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
@@ -50,14 +45,14 @@ class ScrollingDemo : AppCompatActivity() {
     }
 
     private fun setUpDrawer() {
-        val toolbar = findViewById(R.id.toolbar) as Toolbar
+        val toolbar:Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setHomeButtonEnabled(true)
 
 
-        val drawerLayout = findViewById(R.id.drawer_layout) as DrawerLayout
+        val drawerLayout:DrawerLayout = findViewById(R.id.drawer_layout)
         val drawerToggle = ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.consider_angle, R.string.ignore_child_requests)
         drawerToggle.syncState()
     }
