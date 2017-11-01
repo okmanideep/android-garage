@@ -1,8 +1,6 @@
 package me.okmanideep.androidgarage.ui.commons
 
 import android.content.Context
-import android.support.v4.view.MotionEventCompat
-import android.support.v4.view.ViewConfigurationCompat
 import android.support.v7.widget.RecyclerView
 import android.util.AttributeSet
 import android.view.MotionEvent
@@ -30,7 +28,7 @@ open class BetterRecyclerView : RecyclerView {
         val vc = ViewConfiguration.get(context)
         when (slopConstant) {
             TOUCH_SLOP_DEFAULT -> touchSlop = vc.scaledTouchSlop
-            TOUCH_SLOP_PAGING -> touchSlop = ViewConfigurationCompat.getScaledPagingTouchSlop(vc)
+            TOUCH_SLOP_PAGING -> touchSlop = vc.scaledPagingTouchSlop
         }
     }
 
@@ -39,32 +37,32 @@ open class BetterRecyclerView : RecyclerView {
             return false
         }
 
-        val action = MotionEventCompat.getActionMasked(e)
-        val actionIndex = MotionEventCompat.getActionIndex(e);
+        val action = e.action
+        val actionIndex = e.actionIndex
 
         when (action) {
             MotionEvent.ACTION_DOWN -> {
-                scrollPointerId = MotionEventCompat.getPointerId(e, 0)
+                scrollPointerId = e.getPointerId(0)
                 initialTouchX = Math.round(e.x + 0.5f)
                 initialTouchY = Math.round(e.y + 0.5f)
                 return super.onInterceptTouchEvent(e)
             }
 
             MotionEvent.ACTION_POINTER_DOWN -> {
-                scrollPointerId = MotionEventCompat.getPointerId(e, actionIndex)
-                initialTouchX = Math.round(MotionEventCompat.getX(e, actionIndex) + 0.5f)
-                initialTouchY = Math.round(MotionEventCompat.getY(e, actionIndex) + 0.5f)
+                scrollPointerId = e.getPointerId(actionIndex)
+                initialTouchX = Math.round(e.getX(actionIndex) + 0.5f)
+                initialTouchY = Math.round(e.getY(actionIndex) + 0.5f)
                 return super.onInterceptTouchEvent(e)
             }
 
             MotionEvent.ACTION_MOVE -> {
-                val index = MotionEventCompat.findPointerIndex(e, scrollPointerId)
+                val index = e.findPointerIndex(scrollPointerId)
                 if(index < 0) {
                     return false
                 }
 
-                val x = Math.round(MotionEventCompat.getX(e, index) + 0.5f)
-                val y = Math.round(MotionEventCompat.getY(e, index) + 0.5f)
+                val x = Math.round(e.getX(index) + 0.5f)
+                val y = Math.round(e.getY(index) + 0.5f)
                 if(scrollState != SCROLL_STATE_DRAGGING) {
                     val dx = x - initialTouchX
                     val dy = y - initialTouchY
