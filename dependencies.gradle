@@ -1,0 +1,91 @@
+ext.versions = [:]
+
+def versions = [:]
+versions.android_plugin = '3.0.0'
+//android
+versions.support_lib = '26.0.2'
+versions.build_tools = versions.support_lib
+versions.espresso = '2.2.1'
+versions.runner = '0.4.1'
+
+//google
+versions.play_service = '10.2.1'
+versions.gson = '2.4'
+versions.glide = '3.7.0'
+versions.glide_ok_http = '1.4.0@aar'
+versions.dagger = '2.0.2'
+
+//square
+versions.mortar = '0.20'
+versions.timber = '4.5.0'
+versions.kotter_knife = '0.1.0-SNAPSHOT'
+versions.retrofit = '2.0.2'
+versions.okio = '1.6.0'
+versions.okhttp = '3.2.0'
+versions.leak_canary = '1.5.1'
+
+//rx
+versions.rx_java = '1.0.16'
+versions.rx_android = '1.1.0'
+
+//other
+versions.rx_binding = '0.4.0'
+versions.glass_fish = '10.0-b28'
+versions.junit = '4.12'
+
+versions.kotlin = '1.1.51'
+
+ext.versions = versions
+
+ext.deps = [:]
+def deps = [:]
+
+deps.android_plugin = "com.android.tools.build:gradle:$versions.android_plugin"
+
+def support = [:]
+support.app_compat = "com.android.support:appcompat-v7:$versions.support_lib"
+support.recycler_view = "com.android.support:recyclerview-v7:$versions.support_lib"
+support.card_view = "com.android.support:cardview-v7:$versions.support_lib"
+support.design = "com.android.support:design:$versions.support_lib"
+deps.support = support
+
+def okhttp = [:]
+okhttp.main = "com.squareup.okhttp3:okhttp:$versions.okhttp"
+okhttp.logging_interceptor = "com.squareup.okhttp3:logging-interceptor:$versions.okhttp"
+deps.okhttp = okhttp
+
+def retrofit = [:]
+retrofit.main = "com.squareup.retrofit2:retrofit:$versions.retrofit"
+retrofit.gson = "com.squareup.retrofit2:converter-gson:$versions.retrofit"
+deps.retrofit = retrofit
+
+deps.gson = "com.google.code.gson:gson:$versions.gson"
+
+def dagger = [:]
+dagger.main = "com.google.dagger:dagger:$versions.dagger"
+dagger.compiler = "com.google.dagger:dagger-compiler:$versions.dagger"
+deps.dagger = dagger
+
+deps.glass_fish = "org.glassfish:javax.annotation:$versions.glass_fish"
+
+deps.rx_java = "io.reactivex:rxjava:$versions.rx_java"
+deps.rx_android = "io.reactivex:rxandroid:$versions.rx_android"
+
+deps.timber = "com.jakewharton.timber:timber:$versions.timber"
+
+def rx_binding = [:]
+rx_binding.main = "com.jakewharton.rxbinding:rxbinding:$versions.rx_binding"
+rx_binding.support_v4 = "com.jakewharton.rxbinding:rxbinding-support-v4:$versions.rx_binding"
+rx_binding.app_compat = "com.jakewharton.rxbinding:rxbinding-appcompat-v7:$versions.rx_binding"
+deps.rx_binding = rx_binding
+
+deps.kotterknife = "com.jakewharton:kotterknife:$versions.kotter_knife"
+
+def kotlin = [:]
+kotlin.gradle_plugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:$versions.kotlin"
+kotlin.std_lib = "org.jetbrains.kotlin:kotlin-stdlib:$versions.kotlin"
+deps.kotlin = kotlin
+
+deps.junit = "junit:junit:$versions.junit"
+
+ext.deps = deps
